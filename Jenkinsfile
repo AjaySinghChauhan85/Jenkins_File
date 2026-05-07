@@ -4,7 +4,7 @@ pipeline {
         name="ajay"
     }
     parameters{
-        string(name: ' person', defaultValue: 'Ajay Chauhan', description: 'Who Are You ?')
+        string(name: 'person', defaultValue: 'Ajay Chauhan', description: 'Who Are You ?')
     }
     stages {
         stage('Multiple') {
@@ -16,7 +16,7 @@ pipeline {
                 '''
             }
         }
-        stage("Enviorment variables"){
+        stage("Environment variables"){
             environment{
                        user="vijay"
                         }
@@ -34,8 +34,8 @@ pipeline {
         }
         stage('Continue?') {
             input{
-                message "Should we continue"
-                ok "Yes we should"
+                message "Should we continue?"
+                ok "Yes, we should"
             }
             steps {
                 echo "${person}"

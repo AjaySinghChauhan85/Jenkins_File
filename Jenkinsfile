@@ -28,7 +28,7 @@ pipeline {
         }
         stage('Parameter') {
             steps {
-                echo "${person}"
+                echo "${params.person}"
                 echo "${name}"
             }
         }
@@ -38,7 +38,7 @@ pipeline {
                 ok "Yes, we should"
             }
             steps {
-                echo "${person}"
+                echo "${params.person}"
                 echo "${name}"
             }
         }

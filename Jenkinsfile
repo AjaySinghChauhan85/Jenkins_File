@@ -1,57 +1,91 @@
-pipeline {
+pipeline{
     agent any
-    environment{
-        name="ajay"
+    tools {
+        maven 'mvn' 
     }
-    parameters{
-        string(name: 'person', defaultValue: 'Ajay Chauhan', description: 'Who Are You ?')
-    }
-    stages {
-        stage('Multiple') {
-            steps {
-                sh '''
-                uptime
-                hostname
-                
-                '''
-            }
-        }
-        stage("Environment variables"){
-            environment{
-                       user="vijay"
-                        }
+    stages{
+        stage("Test"){
             steps{
-                echo "${name}"
-                echo "${user}"
+                sh  "mvn test"
+                echo "========executing A========"
+            }
+            post{
+                always{
+                    echo "========always========"
+                }
+                success{
+                    echo "========A executed successfully========"
+                }
+                failure{
+                    echo "========A execution failed========"
+                }
             }
             
         }
-        stage('Parameter') {
-            steps {
-                echo "${params.person}"
-                echo "${name}"
+        stage("Build"){
+            steps{
+                sh  "mvn package"
+                echo "========executing A========"
             }
+            post{
+                always{
+                    echo "========always========"
+                }
+                success{
+                    echo "========A executed successfully========"
+                }
+                failure{
+                    echo "========A execution failed========"
+                }
+            }
+            
         }
-        stage('Continue?') {
-            input{
-                message "Should we continue?"
-                ok "Yes, we should"
+        stage("Deploy on Test"){
+            steps{
+                deploy adapters: [tomcat9(alternativeDeploymentContext: '', credentialsId: 'test_server', path: '', url: 'http://13.201.230.199:8080')], contextPath: '/app', war: '**/*.war'
+                echo "========executing A========"
             }
-            steps {
-                echo "${params.person}"
-                echo "${name}"
+            post{
+                always{
+                    echo "========always========"
+                }
+                success{
+                    echo "========A executed successfully========"
+                }
+                failure{
+                    echo "========A execution failed========"
+                }
             }
+            
+        }
+        stage("Deploy on Prod"){
+            steps{
+                deploy adapters: [tomcat9(alternativeDeploymentContext: '', credentialsId: 'test_server', path: '', url: 'http://13.232.215.224/:8080')], contextPath: '/app', war: '**/*.war'
+                echo "========executing A========"
+            }
+            post{
+                always{
+                    echo "========always========"
+                }
+                success{
+                    echo "========A executed successfully========"
+                }
+                failure{
+                    echo "========A execution failed========"
+                }
+            }
+            
         }
     }
     post{
         always{
-            echo "I will always say hello again.."
-        }
-        failure{
-            echo "Failure."
+            echo "========always========"
         }
         success{
-            echo "Success.."
+            echo "========pipeline executed successfully ========"
+        }
+        failure{
+            echo "========pipeline execution failed========"
         }
     }
 }

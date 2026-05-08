@@ -42,7 +42,7 @@ pipeline{
         }
         stage("Deploy on Test"){
             steps{
-                deploy adapters: [tomcat9(alternativeDeploymentContext: '', credentialsId: 'test_server', path: '', url: 'http://13.201.230.199:8080')], contextPath: '/app', war: '**/*.war'
+                deploy adapters: [tomcat9(alternativeDeploymentContext: '', credentialsId: 'test_server', path: '', url: 'http://13.232.215.224/:8080')], contextPath: '/app', war: '**/*.war'
                 echo "========executing A========"
             }
             post{
@@ -60,7 +60,7 @@ pipeline{
         }
         stage("Deploy on Prod"){
             steps{
-                deploy adapters: [tomcat9(alternativeDeploymentContext: '', credentialsId: 'prod_server', path: '', url: 'http://13.232.215.224:8080')], contextPath: '/app', war: '**/*.war'
+                deploy adapters: [tomcat9(alternativeDeploymentContext: '', credentialsId: 'prod_Server', path: '', url: 'http://13.232.215.224:8080')], contextPath: '/app', war: '**/*.war'
                 echo "========executing A========"
             }
             post{

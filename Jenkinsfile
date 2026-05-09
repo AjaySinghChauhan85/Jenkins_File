@@ -7,7 +7,7 @@ pipeline{
         stage("Test"){
             steps{
                 sh  "mvn test"
-                echo "========executing A========"
+                slackSend channel: 'devops', message: 'Job Started.'
             }
             post{
                 always{
@@ -86,9 +86,11 @@ pipeline{
         }
         success{
             echo "========pipeline executed successfully ========"
+            slackSend channel: 'devops', message: 'Job Success.'
         }
         failure{
             echo "========pipeline execution failed========"
+            slackSend channel: 'devops', message: 'Job Failed.'
         }
     }
 }
